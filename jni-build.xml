@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="zSpace" default="debug">
+
+  <property name="ndk-verbose" value="0" />
+  <property name="ndk-log" value="0" />
+
+	<loadproperties srcFile="local.properties" />
+	<property file="ant.properties" />
+	<loadproperties srcFile="project.properties" />
+  <fail message="sdk.dir is missing. Make sure to generate local.properties using 'android update project'" unless="sdk.dir" />
+  <fail message="ndk.dir is missing. Make sure to generate local.properties using 'android update project'" unless="ndk.dir" />
+	<import file="${sdk.dir}/tools/ant/build.xml" />
+
+  <target name="debug" description="debug">
+    <antcall target="build">
+      <param name="ndk-debug" value="1" />
+      <param name="ndk-verbose" value="${ndk-verbose}" />
+      <param name="ndk-log" value="${ndk-log}" />
+      <param name="ndk-cflags" value="-DASSERT=1 -DTRACE=1 -DTIMESTAMP=1 -DHEXDUMP=1 -DSTACKTRACE=1 -DMEM=1" />
+    </antcall>
+  </target>
+
+  <target name="debug-leaks" description="debug with leaks detection">
+    <antcall target="build">
+      <param name="ndk-debug" value="1" />
+      <param name="ndk-verbose" value="${ndk-verbose}" />
+      <param name="ndk-log" value="${ndk-log}" />
+      <param name="ndk-cflags" value="-DASSERT=1 -DTRACE=1 -DTIMESTAMP=1 -DHEXDUMP=1 -DSTACKTRACE=1 -DMEM=1 -DLEAKS=1" />
+    </antcall>
+  </target>
+
+  <target name="release" description="release">
+    <antcall target="build">
+      <param name="ndk-debug" value="0" />
+      <param name="ndk-verbose" value="${ndk-verbose}" />
+      <param name="ndk-log" value="${ndk-log}" />
+      <param name="ndk-cflags" value="" />
+    </antcall>
+  </target>
+
+  <target name="release-timestamp" description="release">
+    <antcall target="build">
+      <param name="ndk-debug" value="0" />
+      <param name="ndk-verbose" value="${ndk-verbose}" />
+      <param name="ndk-log" value="${ndk-log}" />
+      <param name="ndk-cflags" value="-DTIMESTAMP=1" />
+    </antcall>
+  </target>
+
+
+  <target name="build">
+    <!-- you may want to uncomment lines below to debug ant script itself -->
+<!--
+    <echo message="ndk-debug=${ndk-debug}" level="error" />
+    <echo message="ndk-verbose=${ndk-verbose}" level="error"  />
+    <echo message="ndk-log=${ndk-log}" level="error"  />
+    <echo message="ndk-args=${ndk-cflags}" level="error"  />
+-->
+    <exec executable="jni/revision.sh" failonerror="false" />
+    <exec executable="${ndk.dir}/ndk-build" failonerror="false">
+  			<arg value="NDK_DEBUG=${ndk-debug}" />
+  			<arg value="V=${ndk-verbose}" />
+  			<arg value="NDK_LOG=${ndk-log}" />
+        <arg value="ANT_CFLAGS=${ndk-cflags}" />
+    </exec>
+  </target>
+
+  <target name="clean" description="clean">
+    <exec executable="${ndk.dir}/ndk-build" failonerror="false">
+  			<arg value="clean" />
+    </exec>
+    <exec executable="../clean.sh" failonerror="true">
+    </exec>
+  </target>
+
+</project>
