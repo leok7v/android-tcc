@@ -1,0 +1,19 @@
+<component name="ProjectDictionaryState">
+  <dictionary name="leo">
+    <words>
+      <w>countof</w>
+      <w>cputime</w>
+      <w>getres</w>
+      <w>gettime</w>
+      <w>nano</w>
+      <w>nanosleep</w>
+      <w>realtime</w>
+      <w>sprintf</w>
+      <w>strcat</w>
+      <w>strlen</w>
+      <w>struct</w>
+      <w>timespec</w>
+      <w>walltime</w>
+    </words>
+  </dictionary>
+</component>

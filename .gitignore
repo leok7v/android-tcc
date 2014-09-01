@@ -1,5 +1,6 @@
 gen/*
-lib/*
+libs/*
 out/*
+obj/*
 
 .idea/workspace.xml

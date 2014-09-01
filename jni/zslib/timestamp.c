@@ -13,7 +13,7 @@ enum { N = 1024, NANOSECONDS_IN_SECOND = 1000000000 }; /* 2 x 8KB hashmaps */
 int64_t walltime() {
     struct timespec tm = {0};
 #ifdef __ANDROID__
-    clock_gettime(CLOCK_REALTIME_HR, &tm);
+    clock_gettime(CLOCK_REALTIME, &tm);
 #elif __MACH__
     mach_clock_gettime(REALTIME_CLOCK, &tm);
 #else
@@ -112,8 +112,8 @@ int64_t timestamp_(const char* file, int line, const char* func, const char* lab
 #ifdef DEBUG
 static void clock_study() {
 #ifdef __ANDROID__
-    static int ids[] = { CLOCK_MONOTONIC, CLOCK_REALTIME_HR, CLOCK_REALTIME, CLOCK_THREAD_CPUTIME_ID, CLOCK_PROCESS_CPUTIME_ID };
-    static const char* names[] = { "CLOCK_MONOTONIC", "CLOCK_REALTIME_HR", "CLOCK_REALTIME", "CLOCK_THREAD_CPUTIME_ID", "CLOCK_PROCESS_CPUTIME_ID" };
+    static int ids[] = { CLOCK_MONOTONIC, CLOCK_REALTIME, CLOCK_THREAD_CPUTIME_ID, CLOCK_PROCESS_CPUTIME_ID };
+    static const char* names[] = { "CLOCK_MONOTONIC", "CLOCK_REALTIME", "CLOCK_THREAD_CPUTIME_ID", "CLOCK_PROCESS_CPUTIME_ID" };
 #else
     static int ids[] = { CLOCK_MONOTONIC, CLOCK_REALTIME, CLOCK_THREAD_CPUTIME_ID, CLOCK_PROCESS_CPUTIME_ID };
     static const char* names[] = { "CLOCK_MONOTONIC", "CLOCK_REALTIME", "CLOCK_THREAD_CPUTIME_ID", "CLOCK_PROCESS_CPUTIME_ID" };
